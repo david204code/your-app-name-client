@@ -23,53 +23,91 @@ class Signup extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
-  };
-
-  render() {
-    
     const { username, email, password, password_confirmation } = this.state;
 
-    return(
-      <div>
-        <h1>Sign Up</h1>
+    let user = {
+      username: username,
+      email: email,
+      password: password,
+      password_confirmation: password_confirmation
+    }
 
-        <form onSubmit ={this.handleSubmit}>
-          <input 
-            placeholder ='username'
-            type ='text'
-            name ='username'
-            value ={username}
-            onChange ={this.handleChange}
-          />
-          <input
-            placeholder ='email'
-            type ='text'
-            name ='name'
-            value ={email}
-            onChange ={this.handleChange}
-          />
-          <input
-            placeholder ='password'
-            type ='password'
-            name ='password'
-            value ={password}
-            onChange ={this.handleChange}
-          />
-          <input
-            placeholder ='password confirmation'
-            type ='password'
-            name ='password_confirmation'
-            value ={password_confirmation}
-            onChange ={this.handleChange}
-          />
+    axios.post('http://localhost:3001/users', {user}, {withCredentials: true})
+      .then(response => {
+        if (response.data.status === 'created') {
+          this.props.handleLogin(response.data)
+          this.redirect()
+        } else {
+          this.setState({
+            errors: response.data.errors
+          })
+        }
+      })
+      .catch(error => console.log('api errors:', error))
+    };
 
-          <button placeholder ='submit' type ='submit'>
-            Sign Up  
-          </button>    
-        </form>
-      </div>
-    );
+    redirect = () => {
+      this.props.history.push('/')
+    }
+
+    handleErrors = () => {
+      return (
+        <div>
+          <ul>
+            {this.state.errors.map((error) => {
+              return <li key={error}>{error}</li>
+            })}
+          </ul>
+        </div>
+      )
+    };
+  
+
+    render() {
+      
+      const { username, email, password, password_confirmation } = this.state;
+
+      return(
+        <div>
+          <h1>Sign Up</h1>
+
+          <form onSubmit ={this.handleSubmit}>
+            <input 
+              placeholder ='username'
+              type ='text'
+              name ='username'
+              value ={username}
+              onChange ={this.handleChange}
+            />
+            <input
+              placeholder ='email'
+              type ='text'
+              name ='name'
+              value ={email}
+              onChange ={this.handleChange}
+            />
+            <input
+              placeholder ='password'
+              type ='password'
+              name ='password'
+              value ={password}
+              onChange ={this.handleChange}
+            />
+            <input
+              placeholder ='password confirmation'
+              type ='password'
+              name ='password_confirmation'
+              value ={password_confirmation}
+              onChange ={this.handleChange}
+            />
+
+            <button placeholder ='submit' type ='submit'>
+              Sign Up  
+            </button>    
+          </form>
+        </div>
+      );
+    };
   };
-};
 
 export default Signup;
