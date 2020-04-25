@@ -1,6 +1,9 @@
 import React from 'react';
 import axios from 'axios';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import Home from './components/Home';
+import Login from './components/registrations/Login';
+import Signup from './components/registrations/Signup';
 
 class App extends React.Component {
 
@@ -51,9 +54,29 @@ class App extends React.Component {
       <div>
         <BrowserRouter>
           <Switch>
-            <Route exact path = '/' component={} />
-            <Route exact path = '/login' component={} />
-            <Route exact path = '/signup' component={} />
+            <Route exact path = '/'
+             render={props => (
+               <Home {...props} 
+                  loggedInStatus = {this.state.isLoggedin} 
+                />
+             )}
+            />
+            <Route exact path = '/login' 
+              render={props => (
+                <Login {...props} 
+                  handleLogin={this.handleLogin}
+                  loggedInStatus = {this.state.isLoggedin}
+                />
+              )}
+            />
+            <Route exact path = '/signup' 
+              render={props => (
+                <Signup {...props}
+                  handleLogin={this.handleLogin}
+                  loggedInStatus={this.state.isLoggedin}
+                />
+              )}
+            />
           </Switch>
         </BrowserRouter>
       </div>
