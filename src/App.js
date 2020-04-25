@@ -1,11 +1,31 @@
 import React from 'react';
+import axios from 'axios';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-function App() {
-  return (
-    <div>
+class App extends React.Component {
 
-    </div>
-  );
-}
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isLoggedin: false,
+      user: {}
+    };
+  };
+
+  render() {
+    return (
+      <div>
+        <BrowserRouter>
+          <Switch>
+            <Route exact path = '/' component={} />
+            <Route exact path = '/login' component={} />
+            <Route exact path = '/signup' component={} />
+          </Switch>
+        </BrowserRouter>
+      </div>
+    );
+  };
+};
 
 export default App;
