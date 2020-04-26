@@ -48,7 +48,7 @@ class App extends React.Component {
     });
   };
 
-
+  
   render() {
     return (
       <div>
@@ -57,7 +57,8 @@ class App extends React.Component {
             <Route exact path = '/'
              render={props => (
                <Home {...props} 
-                  loggedInStatus = {this.state.isLoggedin} 
+                  loggedInStatus = {this.state.isLoggedin}
+                  handleLogout = {this.handleLogout} 
                 />
              )}
             />
